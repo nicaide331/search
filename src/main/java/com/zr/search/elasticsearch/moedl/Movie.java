@@ -13,16 +13,15 @@ import java.util.Date;
 @Data
 public class Movie {
 
+    private Integer id;
+
     private String title;
 
-    private String tagline;
 
-    private Date release_date;
-
-    private Double popularity;
-
-    private String original_title;
-
-    private Integer budget;
-
+    @Override
+    public String toString() {
+        return "{index: {_index: zr," +
+                "_type:" + title +"," +
+                "_id:" + id + "}}";
+    }
 }

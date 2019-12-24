@@ -1,9 +1,12 @@
 package com.zr.search.elasticsearch.util;
 
+import org.elasticsearch.action.index.IndexRequest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 描述
@@ -16,7 +19,7 @@ public class Utils {
 //    public static final String PATH = "E:\\ideaspace\\search\\src\\main\\resources\\tmdb.json";
 
     public static String  getPath() {
-        Resource resource = new ClassPathResource("tmdb.json");
+        Resource resource = new ClassPathResource("json.json");
         String path = null;
         try {
             path = resource.getFile().getPath();
@@ -25,5 +28,6 @@ public class Utils {
         }
         return path;
     }
+
 
 }

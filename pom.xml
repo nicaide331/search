@@ -38,6 +38,37 @@
             <version>8.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch -->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>6.2.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/transport -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>6.2.2</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch.client</groupId>-->
+<!--            <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
+<!--            <version>6.2.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch.client</groupId>-->
+<!--            <artifactId>elasticsearch-rest-client</artifactId>-->
+<!--            <version>6.2.2</version>-->
+<!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.jianggujin/IKAnalyzer-lucene -->
         <dependency>
