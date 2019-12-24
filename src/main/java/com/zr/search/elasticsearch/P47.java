@@ -31,64 +31,15 @@ import java.util.*;
 public class P47 {
 
     public static void main(String[] args) {
-        P47 p47 = new P47();
-        p47.bitchInsert();
+        //创建索引
+        Utils.createIndex("zr");
+
+        //插入数据
+        Utils.bitchInsert();
+
+        //关闭
+        Utils.close();
     }
 
-    public void bitchInsert() {
-        Map map = new HashMap();
-
-        File file = new File(Utils.getPath());
-
-        String input = null;
-        JSONObject jsonArray = null;
-        try {
-            input = FileUtils.readFileToString(file, "UTF-8");
-            jsonArray = new JSONObject(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //将读取的数据转换为JSONObject
-//        System.out.println(jsonObject);
-
-        RestHighLevelClient client = Connection.getConnection();
-
-//        CreateIndexRequest request = new CreateIndexRequest("zr");
-//        try {
-//            client.indices().create(request);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        List<Movie> movies = new ArrayList<>();
-        Iterator iter = jsonArray.keys();
-        while (iter.hasNext()) {
-            String key = (String) iter.next();
-            try {
-                String value = jsonArray.getString(key);
-                JSONObject json = new JSONObject(value);
-                Movie movie = JSONUtil.toBean(value, Movie.class);
-                movies.add(movie);
-                String mmm = movie.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        for (Movie movie : movies) {
-            Map<String, Object> movieMap = new HashMap<>();
-            movieMap.put("title", movie.getTitle());
-            IndexRequest indexRequest = new IndexRequest("zr", "movie", String.valueOf(movie.getId())).source(movieMap);
-            try {
-                client.index(indexRequest);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("结束");
-    }
 
 }
