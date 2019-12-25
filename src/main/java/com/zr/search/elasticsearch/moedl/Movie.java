@@ -3,6 +3,7 @@ package com.zr.search.elasticsearch.moedl;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 描述
@@ -17,11 +18,12 @@ public class Movie {
 
     private String title;
 
+    private String overview;
 
-    @Override
-    public String toString() {
-        return "{index: {_index: zr," +
-                "_type:" + title +"," +
-                "_id:" + id + "}}";
-    }
+    private String tagline;
+
+    private List<Cast> cast;
+
+    private List<Directors> directors;
+
 }
