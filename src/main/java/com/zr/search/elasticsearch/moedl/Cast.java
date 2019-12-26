@@ -1,11 +1,14 @@
 package com.zr.search.elasticsearch.moedl;
 
+import lombok.Data;
+
 /**
  * 描述
  *
  * @author nicaide
  * @date 2019年12月25日 15:02:00
  */
+@Data
 public class Cast {
 
     private String name;
@@ -15,4 +18,5 @@ public class Cast {
     private String cast_id;
     private String profile_path;
     private String order;
+
 }

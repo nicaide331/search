@@ -1,11 +1,14 @@
 package com.zr.search.elasticsearch.moedl;
 
+import lombok.Data;
+
 /**
  * 描述
  *
  * @author nicaide
  * @date 2019年12月25日 15:38:00
  */
+@Data
 public class Directors {
     private String name;
     private String department;

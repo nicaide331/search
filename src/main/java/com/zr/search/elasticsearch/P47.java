@@ -32,7 +32,7 @@ public class P47 {
 
     public static void main(String[] args) {
         //创建索引
-        Utils.createIndex("zr");
+//        Utils.createIndex("zr");
 
         //插入数据
         Utils.bitchInsert();

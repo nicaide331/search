@@ -1,18 +1,24 @@
 package com.zr.search.elasticsearch.util;
 
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import com.zr.search.elasticsearch.moedl.Cast;
+import com.zr.search.elasticsearch.moedl.ListCast;
 import com.zr.search.elasticsearch.moedl.Movie;
 import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -25,7 +31,7 @@ public class Utils {
 
 //    public static final String PATH = "E:\\ideaspace\\search\\src\\main\\resources\\tmdb.json";
 
-    public static String  getPath() {
+    public static String getPath() {
         Resource resource = new ClassPathResource("json.json");
         String path = null;
         try {
@@ -57,10 +63,10 @@ public class Utils {
         File file = new File(Utils.getPath());
 
         String input = null;
-        JSONObject jsonArray = null;
+        JSONObject jsonObject = null;
         try {
             input = FileUtils.readFileToString(file, "UTF-8");
-            jsonArray = new JSONObject(input);
+            jsonObject = JSON.parseObject(input);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -69,33 +75,30 @@ public class Utils {
         //将读取的数据转换为JSONObject
 //        System.out.println(jsonObject);
 
+        BulkRequest bulkRequest = new BulkRequest();
 
-
-        List<Movie> movies = new ArrayList<>();
-        Iterator iter = jsonArray.keys();
-        while (iter.hasNext()) {
-            String key = (String) iter.next();
-            try {
-                String value = jsonArray.getString(key);
-                JSONObject json = new JSONObject(value);
-                Movie movie = JSONUtil.toBean(value, Movie.class);
-                movies.add(movie);
-                String mmm = movie.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        for (JSONObject.Entry jojo : jsonObject.entrySet()){
+            Map<Object, Object> movieMap = new HashMap<>();
+            JSONObject j = (JSONObject) jojo.getValue();
+//            JSONArray castArray = (JSONArray) j.get("cast");
+//            List<Cast> cast = castArray.toJavaList(Cast.class);
+//            List<String> names = new ArrayList<>();
+//            for (Cast c : cast) {
+//                names.add(c.getName());
+//            }
+//            ListCast listCast = new ListCast();
+//            listCast.setName(names);
+//            Map castMap = new HashMap();
+//            castMap.put("name", listCast.getName());
+//            j.put("cast", castMap);
+            IndexRequest indexRequest = new IndexRequest("zr", "movie", String.valueOf(jojo.getKey())).source(j);
+            bulkRequest.add(indexRequest);
         }
 
-
-        for (Movie movie : movies) {
-            Map<String, Object> movieMap = new HashMap<>();
-            movieMap.put("title", movie.getTitle());
-            IndexRequest indexRequest = new IndexRequest("zr", "movie", String.valueOf(movie.getId())).source(movieMap);
-            try {
-                client.index(indexRequest);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            client.bulk(bulkRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         System.out.println("结束");
     }
